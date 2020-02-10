@@ -8,7 +8,7 @@
         :class="['state', {actived: filter === state}]"
         @click="toggleFilter(state)"
       >
-        {{state }}
+        {{ state }}
       </span>
     </span>
     <span
@@ -19,7 +19,6 @@
 </template>
 
 <script>
-var aaa = 123
 export default {
   props: {
     filter: {
