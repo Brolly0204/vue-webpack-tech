@@ -1,3 +1,4 @@
+const path = require('path')
 const { resolve } = require('./util')
 
 const config = {
@@ -15,6 +16,14 @@ const config = {
   },
   module: {
     rules: [
+      // https://webpack.docschina.org/concepts/loaders/
+      // https://vue-loader.vuejs.org/zh/guide/custom-blocks.html#example
+      // vue模板自定义块 指定自定义loader
+      // {
+      //   resourceQuery: /blockType=docs/,
+      // loader: path.resolve(__dirname, './docs-loader')
+      //   loader: require.resolve('./docs-loader')
+      // },
       {
         test: /\.vue$/,
         loader: 'vue-loader'

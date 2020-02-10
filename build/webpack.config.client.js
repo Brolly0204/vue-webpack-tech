@@ -11,6 +11,16 @@ const { resolve } = require('./util')
 
 const isDev = process.env.NODE_ENV === 'development'
 
+const defaultPlugins = [
+  new VueLoaderPlugin(),
+  new HtmlWebpackPlugin(),
+  new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: JSON.stringify(isDev ? 'development' : 'production')
+    }
+  })
+]
+
 let config
 // development
 if (isDev) {
@@ -60,7 +70,7 @@ if (isDev) {
       historyApiFallback: true,
       hot: true
     },
-    plugins: []
+    plugins: [...defaultPlugins]
   })
 } else {
   // production
@@ -135,6 +145,7 @@ if (isDev) {
       }
     },
     plugins: [
+      ...defaultPlugins,
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
         filename: 'css/[name]_[hash:8].css'
@@ -142,15 +153,5 @@ if (isDev) {
     ]
   })
 }
-
-config.plugins.push(
-  new VueLoaderPlugin(),
-  new HtmlWebpackPlugin(),
-  new webpack.DefinePlugin({
-    'process.env': {
-      NODE_ENV: JSON.stringify(isDev ? 'development' : 'production')
-    }
-  })
-)
 
 module.exports = config
