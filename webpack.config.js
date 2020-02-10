@@ -12,7 +12,7 @@ const isDev = process.env.NODE_ENV === 'development'
 const config = {
   entry: './src/main.js',
   output: {
-    filename: 'bundle.[hash:8].js',
+    filename: 'main.js',
     chunkFilename: '[name].js',
     path: path.resolve(__dirname, 'dist')
   },
@@ -97,7 +97,8 @@ const config = {
 }
 
 if (!isDev) {
-  config.output.filename = 'bundle.[chunkhash:8].js'
+  config.output.filename = '[name].[hash:8].js'
+  config.output.chunkFilename = '[name].[chunkhash:8].js'
   config.plugins.push(
     new MiniCssExtractPlugin({
       filename: '[name].css',
@@ -105,11 +106,14 @@ if (!isDev) {
     })
   )
   config.optimization = {
+    runtimeChunk: {
+      name: entrypoint => `runtime~${entrypoint.name}`
+    },
     // 压缩js 压缩css
     minimizer: [new TerserPlugin(), new OptimizeCssAssetsPlugin({})],
     splitChunks: {
       chunks: 'all',
-      minSize: 30000, // 至少要大于 30kb 才会打包
+      // minSize: 30000, // 至少要大于 30kb 才会拆分
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
