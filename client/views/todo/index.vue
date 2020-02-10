@@ -9,8 +9,8 @@
     >
     <Item
       v-for="todo in filterTodos"
-      :todo="todo"
       :key="todo.id"
+      :todo="todo"
       @del="deleteTodo"
     />
     <Tabs
@@ -31,6 +31,12 @@ export default {
     Item,
     Tabs
   },
+  data() {
+    return {
+      todos: [],
+      filter: 'all'
+    }
+  },
   computed: {
     filterTodos() {
       if (this.filter === 'all') {
@@ -38,12 +44,6 @@ export default {
       }
       const completed = this.filter === 'completed'
       return this.todos.filter(todo => todo.completed === completed)
-    }
-  },
-  data() {
-    return {
-      todos: [],
-      filter: 'all'
     }
   },
   methods: {

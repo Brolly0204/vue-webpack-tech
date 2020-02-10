@@ -1,6 +1,6 @@
 <template>
   <div class="helper">
-    <span class="left">{{unFinishedTodoLength}} items left</span>
+    <span class="left">{{ unFinishedTodoLength }} items left</span>
     <span class="tabs">
       <span
         v-for="state in states"
@@ -8,7 +8,7 @@
         :class="['state', {actived: filter === state}]"
         @click="toggleFilter(state)"
       >
-        {{state}}
+        {{state }}
       </span>
     </span>
     <span
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+var aaa = 123
 export default {
   props: {
     filter: {
@@ -30,14 +31,14 @@ export default {
       required: true
     }
   },
-  computed: {
-    unFinishedTodoLength() {
-      return this.todos.filter(todo => !todo.completed).length
-    }
-  },
   data() {
     return {
       states: ['all', 'active', 'completed']
+    }
+  },
+  computed: {
+    unFinishedTodoLength() {
+      return this.todos.filter(todo => !todo.completed).length
     }
   },
   methods: {

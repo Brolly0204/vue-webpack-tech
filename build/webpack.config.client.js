@@ -30,12 +30,26 @@ if (isDev) {
     module: {
       rules: [
         {
+          enforce: 'pre',
+          test: /\.(jsx?|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /node_modules/,
+          options: {
+            formatter: require('eslint-friendly-formatter')
+          }
+        },
+        {
           test: /\.css$/,
           use: [
             'vue-style-loader',
             {
               loader: 'css-loader',
-              options: { importLoaders: 1 }
+              options: {
+                importLoaders: 1,
+                modules: {
+                  localIdentName: '[local]_[hash:base64:8]'
+                }
+              }
             },
             'postcss-loader'
           ]
@@ -44,7 +58,15 @@ if (isDev) {
           test: /\.styl(us)?$/,
           use: [
             'vue-style-loader',
-            'css-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 2
+                // modules: {
+                //   localIdentName: '[local]_[hash:base64:8]'
+                // }
+              }
+            },
             {
               loader: 'postcss-loader',
               options: {
@@ -65,6 +87,7 @@ if (isDev) {
         modules: false
       },
       overlay: {
+        warnings: true,
         errors: true
       },
       historyApiFallback: true,
@@ -95,7 +118,9 @@ if (isDev) {
             },
             {
               loader: 'css-loader',
-              options: { importLoaders: 1 }
+              options: {
+                importLoaders: 1
+              }
             },
             'postcss-loader'
           ]
@@ -109,7 +134,12 @@ if (isDev) {
                 publicPath: '../'
               }
             },
-            'css-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 2
+              }
+            },
             {
               loader: 'postcss-loader',
               options: {
