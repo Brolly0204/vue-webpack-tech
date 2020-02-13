@@ -5,8 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cross-env NODE_ENV=production webpack --config build/webpack.config.client.js",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --mode=development --config build/webpack.config.client.js",
+    "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.config.client.js",
+    "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.config.server.js",
+    "build": "concurrently \"npm:build:*\"",
+    "dev:client": "cross-env NODE_ENV=development webpack-dev-server --mode=development --config build/webpack.config.client.js",
+    "dev:server": "nodemon server/server.js",
+    "dev": "concurrently \"npm:dev:*\"",
+    "start": "cross-env NODE_ENV=production node server/server.js",
     "lint": "eslint --ext .js,.jsx,.vue client",
     "lint-fix": "eslint --fix --ext .js,.jsx,.vue client"
   },
@@ -19,9 +24,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@koa/router": "^8.0.8",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
+    "axios": "^0.19.2",
     "core-js": "^3.6.4",
-    "vue": "^2.6.11"
+    "ejs": "^3.0.1",
+    "koa": "^2.11.0",
+    "koa-send": "^5.0.0",
+    "vue": "^2.6.11",
+    "vue-meta": "^2.3.2",
+    "vue-router": "^3.1.5",
+    "vue-server-renderer": "^2.6.11",
+    "vuex": "^3.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -31,6 +45,7 @@
     "autoprefixer": "^9.7.4",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
+    "concurrently": "^5.1.0",
     "cross-env": "^7.0.0",
     "eslint": "^6.8.0",
     "eslint-friendly-formatter": "^4.0.1",
@@ -40,7 +55,9 @@
     "html-webpack-plugin": "^3.2.0",
     "husky": "^4.2.1",
     "image-webpack-loader": "^6.0.0",
+    "memory-fs": "^0.5.0",
     "mini-css-extract-plugin": "^0.9.0",
+    "nodemon": "^2.0.2",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "stylus": "^0.54.7",
@@ -51,7 +68,8 @@
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.3",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "webpack-node-externals": "^1.7.2"
   },
   "browserslist": [
     "> 1%",

@@ -2,7 +2,7 @@
   <div id="app">
     <div id="cover" />
     <Header />
-    <Todo />
+    <router-view />
     <Footer />
   </div>
 </template>
@@ -10,13 +10,15 @@
 <script>
 import Header from './layout/header'
 import Footer from './layout/footer'
-import Todo from './views/todo'
 
 export default {
+  name: 'App',
+  metaInfo: {
+    title: 'Brolly \'s Todo App'
+  },
   components: {
     Header,
-    Footer,
-    Todo
+    Footer
   },
   data() {
     return {

@@ -1,5 +1,5 @@
 const webpack = require('webpack')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueSSRServerPlugin = require('vue-server-renderer/client-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
@@ -12,8 +12,12 @@ const { resolve } = require('./util')
 const isDev = process.env.NODE_ENV === 'development'
 
 const defaultPlugins = [
-  new VueLoaderPlugin(),
-  new HtmlWebpackPlugin(),
+  // https://ssr.vuejs.org/zh/guide/build-config.html#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE-client-config
+  // 生成 `vue-ssr-client-manifest.json`
+  new VueSSRServerPlugin(),
+  new HtmlWebpackPlugin({
+    template: resolve('public/index.html')
+  }),
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify(isDev ? 'development' : 'production')
@@ -25,7 +29,14 @@ let config
 // development
 if (isDev) {
   config = merge(baseConfig, {
-    mode: 'development',
+    entry: resolve('client/client-entry.js'),
+    output: {
+      filename: '[name].js',
+      chunkFilename: '[name].js',
+      path: resolve('dist'),
+      publicPath: 'http://localhost:8000/'
+    },
+    mode: isDev ? 'development' : 'production',
     devtool: 'eval-cheap-module-source-map',
     module: {
       rules: [
@@ -102,7 +113,7 @@ if (isDev) {
       filename: '[name]_[hash:8].js',
       chunkFilename: '[name]_[chunkhash:8].js',
       path: resolve('dist'),
-      publicPath: './'
+      publicPath: '/public/'
     },
     mode: 'production',
     module: {

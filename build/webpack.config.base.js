@@ -1,17 +1,19 @@
-const path = require('path')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const { resolve } = require('./util')
 
 const config = {
-  entry: resolve('client/main.js'),
+  entry: resolve('client/client-entry.js'),
   output: {
     filename: '[name].js',
     chunkFilename: '[name].js',
-    path: resolve('dist')
+    path: resolve('dist'),
+    publicPath: '/public/'
   },
   resolve: {
     extensions: ['.js', '.vue', '.jsx', '.json'],
     alias: {
-      '@': resolve('client')
+      '@': resolve('client'),
+      vue2: 'vue/dist/vue.esm.js'
     }
   },
   module: {
@@ -45,7 +47,8 @@ const config = {
         }
       }
     ]
-  }
+  },
+  plugins: [new VueLoaderPlugin()]
 }
 
 module.exports = config
