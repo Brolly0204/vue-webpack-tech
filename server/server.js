@@ -19,6 +19,7 @@ app.use(async (ctx, next) => {
   }
 })
 
+// favicon.ico
 app.use(async (ctx, next) => {
   if (ctx.path === '/favicon.ico') {
     await send(ctx, '/favicon.ico', { root: path.join(__dirname, '../') })

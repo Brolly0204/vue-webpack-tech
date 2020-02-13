@@ -5,7 +5,6 @@ const { createBundleRenderer } = require('vue-server-renderer')
 const serverRender = require('./server-render')
 
 // producttion环境下 clientManifest和serverBundle预先编译好了
-
 // clientManifest
 const clientManifest = require('../../dist/vue-ssr-client-manifest.json')
 
