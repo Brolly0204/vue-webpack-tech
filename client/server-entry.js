@@ -1,5 +1,6 @@
 import createApp from './create-app'
 
+// renderer.renderToString()执行时，内部会调用此函数
 export default context => {
   return new Promise((resolve, reject) => {
     const { app, router } = createApp()

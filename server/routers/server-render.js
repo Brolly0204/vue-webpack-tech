@@ -5,8 +5,9 @@ module.exports = async (ctx, renderer, template) => {
   const context = { url: ctx.url }
 
   try {
+    // renderToString执行时 内部会调用 client/server-entry.js里导出的方法并传入context
     const appString = await renderer.renderToString(context)
-    // renderToString执行 调用 client/server-entry.js里的方法
+
     // 并挂载meta信息 context.meta = app.$meta()
     const { title } = context.meta.inject()
     // 手动注入资源
@@ -19,7 +20,8 @@ module.exports = async (ctx, renderer, template) => {
     })
     ctx.body = html
   } catch (err) {
+    // 错误页面处理
     console.log('error', err)
-    throw err
+    ctx.body = 404
   }
 }
