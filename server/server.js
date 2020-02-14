@@ -1,9 +1,12 @@
 const Koa = require('koa')
+const cors = require('@koa/cors')
 const path = require('path')
 const send = require('koa-send')
 
-const app = new Koa()
 const isDev = process.env.NODE_ENV === 'development'
+
+const app = new Koa()
+app.use(cors())
 
 app.use(async (ctx, next) => {
   try {

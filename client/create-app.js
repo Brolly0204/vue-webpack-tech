@@ -6,11 +6,14 @@ import VueMeta from 'vue-meta'
 import createRouter from './config/router'
 import createStore from './store'
 import App from './App.vue'
+import Notification from './components/Notification'
+
 import './assets/styles/global.styl'
 
 Vue.use(VueRouter)
 Vue.use(Vuex)
 Vue.use(VueMeta)
+Vue.use(Notification)
 
 export default () => {
   const router = createRouter()
